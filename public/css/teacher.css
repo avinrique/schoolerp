@@ -1,0 +1,124 @@
+/* General Boilerplate and Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Teacher Section */
+.teacher-section {
+    padding: 20px;
+}
+.teacher-section .firstrow{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2%;
+}
+
+.add-teacher-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-teacher-btn:hover {
+    background-color: #0056b3;
+}
+
+.teacher-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.teacher-card {
+    background-color: white;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.teacher-card h4 {
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+/* Modal for Adding Teachers */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    overflow-y: auto; /* Prevents the form from being cut off */
+}
+
+.modal-content h2{
+    margin-bottom: 2rem;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 2% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%; /* Adjust for wider form */
+    max-width: 600px; /* Keep the form at a manageable width */
+    scrollbar-width: none;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: red;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.submit-btn {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Ensure modal content doesn't exceed screen height */
+.modal-content {
+    max-height: 90%;
+    overflow-y: auto;
+}
