@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - School ERP</title>
+    <link rel="stylesheet" href="../public/css/admin.css">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>School ERP</h2>
+        <ul>
+            <li><a href="#dashboard">Dashboard</a></li>
+            <li><a href="#admissions">Admissions</a></li>
+            <li><a href="#fees">Fees</a></li>
+            <li><a href="#salaries">Salaries</a></li>
+            <li><a href="#infrastructure">Infrastructure</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>Admin Dashboard</h1>
+            <button class="logout-btn">Logout</button>
+        </div>
+
+        <div class="overview">
+            <div class="card" id="admissions">
+                <h3>Admissions</h3>
+                <p>Total: 120</p>
+                <p>Pending: 15</p>
+            </div>
+            <div class="card" id="fees">
+                <h3>Fees Collected</h3>
+                <p>Total: ₹ 5,00,000</p>
+                <p>Pending: ₹ 50,000</p>
+            </div>
+            <div class="card" id="salaries">
+                <h3>Teacher Salaries</h3>
+                <p>Total Paid: ₹ 3,00,000</p>
+                <p>Pending: ₹ 20,000</p>
+            </div>
+            <div class="card" id="infrastructure">
+                <h3>Infrastructure</h3>
+                <p>Classrooms: 25</p>
+                <p>Maintenance Requests: 2</p>
+            </div>
+        </div>
+    </div>
+    <script src="../test.js"></script>
+</body>
+</html>
