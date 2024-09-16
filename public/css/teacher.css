@@ -63,7 +63,7 @@
 }
 
 .modal-content h2{
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
 }
 
 .modal-content {
@@ -72,8 +72,25 @@
     padding: 20px;
     border-radius: 10px;
     width: 80%; /* Adjust for wider form */
-    max-width: 600px; /* Keep the form at a manageable width */
     scrollbar-width: none;
+}
+.firstrow{
+    display: flex;
+    gap: 1rem;
+}
+.firstrow .form-group{
+    width: 50%;
+}
+.subjectrow{
+    display: flex;
+    gap: 0.4rem;
+}
+.subjectrow .sub-left{
+    width: 90%;
+}
+.subjectrow .sub-right{
+    width: 15%;
+    margin-top: 1.5rem;
 }
 
 .close {
@@ -122,3 +139,33 @@
     max-height: 90%;
     overflow-y: auto;
 }
+
+/* Style for the buttons */
+ #addSubjectBtn{
+    background-color: #7d8893; /* Primary blue color */
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a shadow for depth */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+}
+
+/* Hover effect to make the button interactive */
+#addSubjectBtn:hover{
+    background-color: #5a6570; /* Darker shade of blue */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+}
+
+/* Button click effect (active state) */
+#addSubjectBtn:active{
+    background-color: #004085; /* Even darker shade on click */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Reduced shadow on click */
+}
+
+#addSubjectBtn {
+    width: 100%;
+}
+

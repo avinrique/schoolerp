@@ -1,3 +1,3 @@
 exports.getHomeController = async (req, res) => {
- res.render('teacher')
+ res.render('pen_std')
 };

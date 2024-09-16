@@ -35,38 +35,53 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Add New Teacher</h2>
             <form>
-                <div class="form-group">
-                    <label for="firstName">First Name</label>
-                    <input type="text" id="firstName" name="firstName" required>
+                <div class="firstrow">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="lastName">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" required>
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Phone</label>
-                    <input type="text" id="phone" name="phone" required>
+                <div class="firstrow">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="text" id="phone" name="phone" required>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="employeeId">Employee ID</label>
                     <input type="text" id="employeeId" name="employeeId" required>
                 </div>
-                <div class="form-group">
-                    <label for="subjects">Subjects</label>
-                    <input type="text" id="subjects" name="subjects" required>
+                <div class="form-group subjectrow" id="subjectsField">
+                    <div class="sub-left">
+                        <label for="subjects">Subjects</label>
+                        <div id="subjectInputs">
+                            <input type="text" name="subjects[]" class="subject-input" required>
+                        </div>
+                    </div>
+                    <div class="sub-right">
+                        <button type="button" id="addSubjectBtn">Add Subject</button> <!-- This line is added -->
+                    </div>
+                    
                 </div>
-                <div class="form-group">
-                    <label for="dateOfJoining">Date of Joining</label>
-                    <input type="date" id="dateOfJoining" name="dateOfJoining" required>
+                <div class="firstrow">
+                    <div class="form-group">
+                        <label for="dateOfJoining">Date of Joining</label>
+                        <input type="date" id="dateOfJoining" name="dateOfJoining" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Address</label>
+                        <input type="text" id="address" name="address" required>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="address">Address</label>
-                    <input type="text" id="address" name="address" required>
-                </div>
+                
                 <button type="submit" class="submit-btn">Add Teacher</button>
             </form>
         </div>
@@ -90,9 +105,12 @@ document.querySelector('form').addEventListener('submit', function (event) {
     const email = document.getElementById('email').value;
     const phone = document.getElementById('phone').value;
     const employeeId = document.getElementById('employeeId').value;
-    const subjects = document.getElementById('subjects').value;
     const dateOfJoining = document.getElementById('dateOfJoining').value;
     const address = document.getElementById('address').value;
+
+    // Collect all subject inputs
+    const subjectInputs = document.querySelectorAll('input[name="subjects[]"]');
+    const subjects = Array.from(subjectInputs).map(input => input.value).join(', ');
 
     // Create a new teacher card dynamically
     const teacherGrid = document.querySelector('.teacher-grid');
@@ -118,6 +136,17 @@ document.querySelector('form').addEventListener('submit', function (event) {
 
     // Clear the form fields for the next input
     document.querySelector('form').reset();
+});
+
+
+document.getElementById('addSubjectBtn').addEventListener('click', function () {
+    const subjectInputs = document.getElementById('subjectInputs');
+    const newInput = document.createElement('input');
+    newInput.type = 'text';
+    newInput.name = 'subjects[]';
+    newInput.classList.add('subject-input');
+    newInput.required = true;
+    subjectInputs.appendChild(newInput);
 });
 
     </script>

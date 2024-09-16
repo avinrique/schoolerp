@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Student Enrollment</title>
+    <link rel="stylesheet" href="/css/pen_std.css">
+</head>
+<body>
+    <div class="admin-dashboard">
+        <h1>Pending Student Enrollment Requests</h1>
+
+        <!-- Enrollment Data Box -->
+        <div class="enrollment-box">
+            <h3>Student Enrollment Request</h3>
+            
+            <div class="enrollment-details">
+                <p><strong>Student Name:</strong> John Doe</p>
+                <p><strong>Parent Name:</strong> Jane Doe</p>
+                <p><strong>Parent Email:</strong> janedoe@example.com</p>
+                <p><strong>Phone Number:</strong> 123-456-7890</p>
+                <p><strong>Date of Birth:</strong> 15/05/2010</p>
+                <p><strong>Address:</strong> 123 Main St, City, State, 12345</p>
+                <p><strong>Class Applied For:</strong> 5th Grade</p>
+                <p><strong>Previous School:</strong> ABC Public School</p>
+                <p><strong>Reason for Transfer:</strong> Relocation</p>
+                <p><strong>Entrance Test Status:</strong> Pending</p>
+            </div>
+
+            <!-- Approval or Rejection Buttons -->
+            <div class="action-buttons">
+                <button class="approve-btn" onclick="approveEnrollment()">Approve</button>
+                <button class="reject-btn" onclick="rejectEnrollment()">Reject</button>
+            </div>
+        </div>
+
+        <!-- Additional requests can be listed in similar boxes -->
+    </div>
+
+    <script>
+        // Dummy data to simulate the form approval or rejection
+
+        function approveEnrollment() {
+            // Logic for approving the enrollment
+            const parentEmail = "janedoe@example.com";  // Use actual email from form data
+            alert('Enrollment approved! Sending email to ' + parentEmail);
+
+            // Code to send approval email (NodeMailer or any backend API)
+
+            // After approval, change the test status to pending or passed based on exam
+        }
+
+        function rejectEnrollment() {
+            // Logic for rejecting the enrollment
+            const parentEmail = "janedoe@example.com";
+            alert('Enrollment rejected! Sending rejection email to ' + parentEmail);
+
+            // Code to send rejection email
+        }
+    </script>
+</body>
+</html>
