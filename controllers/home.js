@@ -1,3 +1,6 @@
 exports.getHomeController = async (req, res) => {
- res.render('pen_std')
+ res.render('home')
 };
+exports.getenrollmentController = async (req, res) => {
+    res.render('enrollment')
+   };

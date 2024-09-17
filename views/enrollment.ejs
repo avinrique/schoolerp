@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admission Enrollment Form</title>
-    <link rel="stylesheet" href="../public/css/enrollment.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="/css/enrollment.css">
 </head>
 <body>
 
 <div class="form-container">
     <h2>Admission Enrollment Form</h2>
     <form action="/submit_admission" method="POST" enctype="multipart/form-data">
-        <!-- Student Information -->
+    
         <div class="form-group">
             <label for="student-name">Student’s Full Name *</label>
             <input type="text" id="student-name" name="student_name" required>
@@ -47,7 +47,7 @@
             </select>
         </div>
 
-        <!-- Parent/Guardian Information -->
+     
         <div class="form-group">
             <label for="parent-name">Parent/Guardian’s Full Name *</label>
             <input type="text" id="parent-name" name="parent_name" required>
@@ -71,7 +71,6 @@
             <input type="text" name="zip_code" placeholder="Zip Code" required>
         </div>
 
-        <!-- Additional Information -->
         <div class="form-group">
             <label for="previous-school">Previous School (if applicable)</label>
             <input type="text" id="previous-school" name="previous_school">
@@ -90,8 +89,6 @@
                 <option value="Other">Other</option>
             </select>
         </div>
-
-        <!-- File Uploads -->
         <div class="form-group">
             <label for="birth-certificate">Upload Birth Certificate *</label>
             <input type="file" id="birth-certificate" name="birth_certificate" accept="application/pdf, image/*" required>
@@ -106,8 +103,6 @@
             <label for="additional-info">Any Additional Information</label>
             <textarea id="additional-info" name="additional_info" rows="3"></textarea>
         </div>
-
-        <!-- Submit Button -->
         <button type="submit" class="submit-btn">Submit Enrollment Form</button>
     </form>
 </div>
