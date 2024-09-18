@@ -4,38 +4,34 @@ const Schema = mongoose.Schema;
 const studentSchema = new Schema({
     firstName: {
         type: String,
-        required: true,
+        
         trim: true
     },
     lastName: {
         type: String,
-        required: true,
+        
         trim: true
     },
     email: {
         type: String,
-        required: true,
-        unique: true,
+        
+        
         trim: true,
         lowercase: true,
         match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
     },
     phone: {
         type: String,
-        required: true,
+        
         trim: true
     },
     rollNumber: {
         type: String,
-        required: true,
-        unique: true,
         trim: true
     },
-    classes: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Class', 
-        required: true
-    }],
+    class: {
+        type : String
+    },
     subjects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Subject',
@@ -46,15 +42,15 @@ const studentSchema = new Schema({
         required: true
     },
     address: {
-        street: { type: String, required: true },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        zip: { type: String, required: true }
+        street: { type: String},
+        city: { type: String},
+        state: { type: String},
+        zip: { type: String}
     },
     guardianDetails: {
-        fatherName: { type: String, required: true },
-        motherName: { type: String, required: true },
-        contactNumber: { type: String, required: true }
+        fatherName: { type: String},
+        motherName: { type: String},
+        contactNumber: { type: String}
     },
     attendance: [{
         date: {

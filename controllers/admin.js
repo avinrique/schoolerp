@@ -1,4 +1,5 @@
 const PendingAdmission = require('../models/pending_admission');
+const Student = require("../models/Student")
 exports.getadminController = async (req, res) => {
     res.render('admin')
 };
@@ -40,16 +41,11 @@ exports.updateEnrollmentStatus = async (req, res) => {
                 lastName: admission.studentName.split(' ')[1],
                 email: admission.parentEmail,
                 phone: admission.parentContact,
-                rollNumber: generateRollNumber(),  
                 classes: [admission.grade],  
                 subjects: [],  
                 dateOfEnrollment: new Date(),
-                address: admission.address,
-                guardianDetails: {
-                    fatherName: admission.guardianDetails.fatherName,
-                    motherName: admission.guardianDetails.motherName,
-                    contactNumber: admission.parentContact
-                }
+                
+
             });
             await newStudent.save();
             await PendingAdmission.findByIdAndDelete(id);
@@ -63,9 +59,7 @@ exports.updateEnrollmentStatus = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
-function generateRollNumber() {
-    return 'ROLL-' + Math.floor(1000 + Math.random() * 9000);
-}
+
 
 
 exports.getfeesController = async (req, res) => {
