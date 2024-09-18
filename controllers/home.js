@@ -1,7 +1,7 @@
 const PendingAdmission = require('../models/pending_admission');
 const fs = require('fs')
 exports.getHomeController = async (req, res) => {
- res.render('home')
+ res.render('teacher')
 };
 exports.getenrollmentController = async (req, res) => {
     res.render('enrollment')
