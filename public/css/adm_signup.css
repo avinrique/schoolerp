@@ -1,0 +1,115 @@
+/* Global Styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #6e8efb, #b084e6);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.signup-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 35rem;
+}
+
+.signup-box {
+    height: 90%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    width: 90%; /* Adjust width to prevent overflowing */
+    max-width: 30rem; /* Limit the max width */
+    padding: 1rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    
+    
+}
+
+h2 {
+    font-weight: 500;
+    color: #333;
+    font-size: 2rem;
+    margin: 0;
+    font-weight: 600;
+}
+
+.input-group {
+    margin-bottom: 1rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.input-group input:focus {
+    outline: none;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.1);
+}
+
+.signup-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: #6e8efb;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    box-sizing: border-box;
+}
+
+.signup-btn:hover {
+    background-color: #576df2;
+}
+
+.login-link {
+    margin-top: 20px;
+    font-size: 0.85rem;
+    color: #333;
+}
+
+.login-link a {
+    color: #6e8efb;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 768px) {
+    .signup-box {
+        width: 90%;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .signup-btn {
+        font-size: 0.9rem;
+    }
+}
