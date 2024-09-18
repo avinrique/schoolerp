@@ -1,62 +1,101 @@
+<!-- views/pending_students.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Student Enrollment</title>
+    <title>Pending Students Enrollment</title>
     <link rel="stylesheet" href="/css/pen_std.css">
 </head>
 <body>
     <div class="admin-dashboard">
         <h1>Pending Student Enrollment Requests</h1>
 
-        <!-- Enrollment Data Box -->
-        <div class="enrollment-box">
-            <h3>Student Enrollment Request</h3>
-            
-            <div class="enrollment-details">
-                <p><strong>Student Name:</strong> John Doe</p>
-                <p><strong>Parent Name:</strong> Jane Doe</p>
-                <p><strong>Parent Email:</strong> janedoe@example.com</p>
-                <p><strong>Phone Number:</strong> 123-456-7890</p>
-                <p><strong>Date of Birth:</strong> 15/05/2010</p>
-                <p><strong>Address:</strong> 123 Main St, City, State, 12345</p>
-                <p><strong>Class Applied For:</strong> 5th Grade</p>
-                <p><strong>Previous School:</strong> ABC Public School</p>
-                <p><strong>Reason for Transfer:</strong> Relocation</p>
-                <p><strong>Entrance Test Status:</strong> Pending</p>
-            </div>
+        <% if (pendingStudents.length > 0) { %>
+            <% pendingStudents.forEach(function(student) { %>
+                <div class="enrollment-box">
+                    <h3>Student Enrollment Request</h3>
+                    
+                    <div class="enrollment-details">
+                        <p><strong>Student Name:</strong> <%= student.studentName %></p>
+                        <p><strong>Parent Name:</strong> <%= student.parentName %></p>
+                        <p><strong>Parent Email:</strong> <%= student.parentEmail %></p>
+                        <p><strong>Phone Number:</strong> <%= student.parentContact %></p>
+                        <p><strong>Date of Birth:</strong> <%= new Date(student.dob).toLocaleDateString() %></p>
+                        <p><strong>Address:</strong> <%= student.address.street %>, <%= student.address.city %>, <%= student.address.state %>, <%= student.address.zipCode %></p>
+                        <p><strong>Class Applied For:</strong> <%= student.grade %></p>
+                        <p><strong>Previous School:</strong> <%= student.previousSchool %></p>
+                        <p><strong>Reason for Admission:</strong> <%= student.reasonForAdmission %></p>
+                        <p><strong>Status:</strong> <%= student.status %></p>
+                    </div>
 
-            <!-- Approval or Rejection Buttons -->
-            <div class="action-buttons">
-                <button class="approve-btn" onclick="approveEnrollment()">Approve</button>
-                <button class="reject-btn" onclick="rejectEnrollment()">Reject</button>
-            </div>
-        </div>
+                    <div class="action-buttons">
+                        <!-- Form to approve or reject student -->
+                        <form action="/admin/pending_students/update" method="POST">
+                            <input type="hidden" name="id" value="<%= student._id %>">
+                            
+                            <% if (student.status === 'Pending') { %>
+                                <button type="submit" name="action" value="approve" class="approve-btn">Approve</button>
+                                <button type="submit" name="action" value="reject" class="reject-btn">Reject</button>
+                            <% } else if (student.status === 'Accepted') { %>
+                                <button type="submit" name="action" value="enroll" class="enroll-btn">Enroll</button>
+                                <button type="submit" name="action" value="cancel" class="cancel-btn">Cancel</button>
+                            <% } else if (student.status === 'Enrolled') { %>
+                                <span class="status">Enrolled</span>
+                            <% } %>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No pending enrollment requests.</p>
+        <% } %>
 
-        <!-- Additional requests can be listed in similar boxes -->
     </div>
 
-    <script>
-        // Dummy data to simulate the form approval or rejection
+    <div class="admin-dashboard"></div>
+        <h1>Accepted Student Enrollment Status</h1>
 
-        function approveEnrollment() {
-            // Logic for approving the enrollment
-            const parentEmail = "janedoe@example.com";  // Use actual email from form data
-            alert('Enrollment approved! Sending email to ' + parentEmail);
+        <% if (acceptedStudents.length > 0) { %>
+            <% acceptedStudents.forEach(function(student) { %>
+                <div class="enrollment-box">
+                    <h3>Student Enrollment Request</h3>
+                    
+                    <div class="enrollment-details">
+                        <p><strong>Student Name:</strong> <%= student.studentName %></p>
+                        <p><strong>Parent Name:</strong> <%= student.parentName %></p>
+                        <p><strong>Parent Email:</strong> <%= student.parentEmail %></p>
+                        <p><strong>Phone Number:</strong> <%= student.parentContact %></p>
+                        <p><strong>Date of Birth:</strong> <%= new Date(student.dob).toLocaleDateString() %></p>
+                        <p><strong>Address:</strong> <%= student.address.street %>, <%= student.address.city %>, <%= student.address.state %>, <%= student.address.zipCode %></p>
+                        <p><strong>Class Applied For:</strong> <%= student.grade %></p>
+                        <p><strong>Previous School:</strong> <%= student.previousSchool %></p>
+                        <p><strong>Reason for Admission:</strong> <%= student.reasonForAdmission %></p>
+                        <p><strong>Status:</strong> <%= student.status %></p>
+                    </div>
 
-            // Code to send approval email (NodeMailer or any backend API)
+                    <div class="action-buttons">
+                        <!-- Form to approve or reject student -->
+                        <form action="/admin/pending_students/update" method="POST">
+                            <input type="hidden" name="id" value="<%= student._id %>">
+                            
+                            <% if (student.status === 'Pending') { %>
+                                <button type="submit" name="action" value="approve" class="approve-btn">Approve</button>
+                                <button type="submit" name="action" value="reject" class="reject-btn">Reject</button>
+                            <% } else if (student.status === 'Accepted') { %>
+                                <button type="submit" name="action" value="enroll" class="enroll-btn">Enroll</button>
+                                <button type="submit" name="action" value="cancel" class="cancel-btn">Cancel</button>
+                            <% } else if (student.status === 'Enrolled') { %>
+                                <span class="status">Enrolled</span>
+                            <% } %>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No pending enrollment requests.</p>
+        <% } %>
 
-            // After approval, change the test status to pending or passed based on exam
-        }
-
-        function rejectEnrollment() {
-            // Logic for rejecting the enrollment
-            const parentEmail = "janedoe@example.com";
-            alert('Enrollment rejected! Sending rejection email to ' + parentEmail);
-
-            // Code to send rejection email
-        }
-    </script>
+    </div>
 </body>
 </html>

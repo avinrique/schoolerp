@@ -10,7 +10,7 @@
 
 <div class="form-container">
     <h2>Admission Enrollment Form</h2>
-    <form action="/submit_admission" method="POST" enctype="multipart/form-data">
+    <form action="/enrollment" method="POST" enctype="multipart/form-data">
     
         <div class="form-group">
             <label for="student-name">Student’s Full Name *</label>
@@ -47,7 +47,6 @@
             </select>
         </div>
 
-     
         <div class="form-group">
             <label for="parent-name">Parent/Guardian’s Full Name *</label>
             <input type="text" id="parent-name" name="parent_name" required>
@@ -89,6 +88,7 @@
                 <option value="Other">Other</option>
             </select>
         </div>
+
         <div class="form-group">
             <label for="birth-certificate">Upload Birth Certificate *</label>
             <input type="file" id="birth-certificate" name="birth_certificate" accept="application/pdf, image/*" required>
@@ -103,6 +103,10 @@
             <label for="additional-info">Any Additional Information</label>
             <textarea id="additional-info" name="additional_info" rows="3"></textarea>
         </div>
+        
+        <!-- Add a hidden field to store the initial status -->
+        <input type="hidden" name="status" value="Pending">
+
         <button type="submit" class="submit-btn">Submit Enrollment Form</button>
     </form>
 </div>
