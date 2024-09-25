@@ -10,19 +10,40 @@ body {
     background-color: #f4f4f4;
 }
 
-.container {
-    width: 80%;
-    margin: auto;
-}
-
 .header {
     background-color: #333;
     color: #fff;
-    padding: 1rem 0;
 }
 
-.logo h1 {
-    text-align: center;
+.container {
+    width: 80%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Container for the text-based logo */
+.logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    height: auto;
+}
+
+/* Styling for the text-based logo with gradient effect */
+.logo {
+    font-family: 'Poppins', sans-serif; /* Use a modern font */
+    font-size: 1.2rem; /* Logo size */
+    font-weight: 700;
+    background: linear-gradient(90deg, #08d612, #1985bb); /* Gradient colors */
+    background-clip: text;
+    -webkit-background-clip: text; /* For Safari */
+    color: transparent; /* Makes the gradient visible */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    position: relative;
 }
 
 .nav ul {
@@ -36,14 +57,37 @@ body {
 }
 
 .nav ul li a {
+    position: relative;
     color: #fff;
     text-decoration: none;
-    font-size: 1.2rem;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.nav ul li a:hover{
+    /* color: #c4c4c4; */
+    color: #218838;
+}
+
+.nav ul li a::after{
+    content: "";
+    background-color: #218838;
+    width: 0;
+    height: 2px;
+    position: absolute;
+    left: 0;
+    top: 20px;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+.nav ul li a:hover::after{
+    width: 100%;
 }
 
 .hero {
     position: relative;
-    padding: 4rem 0;
+    padding: 10rem 0;
     text-align: center;
     color: #312828;
 }
@@ -64,10 +108,15 @@ body {
 }
 
 .hero-content {
+    text-align: center;
     position: relative;
     z-index: 1;
 }
 
+.container2{
+    justify-content: center;
+    padding: 0.5rem;
+}
 
 .hero h2 {
     font-size: 3rem;
@@ -109,24 +158,27 @@ body {
     align-items: center;
     justify-content: center;
     gap: 2rem;
+    padding: 2rem 2rem;
 }
 
 .about-img {
-    width: 500px;
+    width: 55rem;
     border-radius: 10px;
+    overflow: hidden;
 }
 
 .about p {
     font-size: 1.2rem;
     max-width: 600px;
     margin: 0;
+    text-align:center;
 }
 
 .footer {
     background-color: #333;
     color: #fff;
     text-align: center;
-    padding: 1rem 0;
+    padding: 0.3rem 0;
     position: relative;
     bottom: 0;
     width: 100%;
