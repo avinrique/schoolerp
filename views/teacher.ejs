@@ -8,34 +8,43 @@
 </head>
 <body>
     <div class="teacher-section">
-        <!-- Button to open the modal -->
-         <div class="firstrow">
+      
+        <div class="firstrow">
             <h1>Teachers</h1>
             <button id="addTeacherBtn" class="add-teacher-btn" onclick="openModal()">Add Teacher</button>
-         </div>
+        </div>
 
-        <!-- Grid to display teacher cards -->
+       
         <div class="teacher-grid">
-            <!-- Example of a teacher card -->
-            <div class="teacher-card">
-                <img src="/images/user.webp" alt="">
-                <h4>John Doe</h4>
-                <p><strong>Email:</strong> johndoe@example.com</p>
-                <p><strong>Phone:</strong> 123-456-7890</p>
-                <p><strong>Employee ID:</strong> T-12345</p>
-                <p><strong>Subjects:</strong> Math, Science</p>
-                <p><strong>Date of Joining:</strong> 12/06/2021</p>
-                <p><strong>Address:</strong> 123 Street, City, State, ZIP</p>
-            </div>
+            <% if (teachers.length > 0) { %>
+                <% teachers.forEach(teacher => { %>
+                    <div class="teacher-card">
+                        <img src="/images/user.webp" alt="Teacher Image">
+                        <h4><%= teacher.firstName %> <%= teacher.lastName %></h4>
+                        <p><strong>Email:</strong> <%= teacher.email %></p>
+                        <p><strong>Phone:</strong> <%= teacher.phone %></p>
+                        <p><strong>Employee ID:</strong> <%= teacher.employeeId %></p>
+                        <p><strong>Subjects:</strong> 
+                            <% teacher.subjects.forEach(subject => { %>
+                                <%= subject.name %><%= teacher.subjects.length > 1 ? ', ' : '' %>
+                            <% }) %>
+                        </p>
+                        <p><strong>Date of Joining:</strong> <%= teacher.dateOfJoining.toDateString() %></p>
+                        <p><strong>Address:</strong> <%= teacher.address.street %>, <%= teacher.address.city %>, <%= teacher.address.state %> - <%= teacher.address.zip %></p>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No teachers available at the moment.</p>
+            <% } %>
         </div>
     </div>
 
-    <!-- Modal for adding a new teacher -->
+ 
     <div id="teacherModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Add New Teacher</h2>
-            <form>
+            <form action="/admin/teachers/postteachers" method="post">
                 <div class="firstrow">
                     <div class="form-group">
                         <label for="firstName">First Name</label>
@@ -68,9 +77,8 @@
                         </div>
                     </div>
                     <div class="sub-right">
-                        <button type="button" id="addSubjectBtn">Add Subject</button> <!-- This line is added -->
+                        <button type="button" id="addSubjectBtn">Add Subject</button>
                     </div>
-                    
                 </div>
                 <div class="firstrow">
                     <div class="form-group">
@@ -82,7 +90,6 @@
                         <input type="text" id="address" name="address" required>
                     </div>
                 </div>
-                
                 <button type="submit" class="submit-btn">Add Teacher</button>
             </form>
         </div>
@@ -90,66 +97,22 @@
 
     <script>
         function openModal() {
-    document.getElementById('teacherModal').style.display = 'block';
-}
+            document.getElementById('teacherModal').style.display = 'block';
+        }
 
-function closeModal() {
-    document.getElementById('teacherModal').style.display = 'none';
-}
+        function closeModal() {
+            document.getElementById('teacherModal').style.display = 'none';
+        }
 
-document.querySelector('form').addEventListener('submit', function (event) {
-    event.preventDefault();  // Prevent the form from submitting in the default way
-
-    // Get form data
-    const firstName = document.getElementById('firstName').value;
-    const lastName = document.getElementById('lastName').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value;
-    const employeeId = document.getElementById('employeeId').value;
-    const dateOfJoining = document.getElementById('dateOfJoining').value;
-    const address = document.getElementById('address').value;
-
-    // Collect all subject inputs
-    const subjectInputs = document.querySelectorAll('input[name="subjects[]"]');
-    const subjects = Array.from(subjectInputs).map(input => input.value).join(', ');
-
-    // Create a new teacher card dynamically
-    const teacherGrid = document.querySelector('.teacher-grid');
-
-    const newTeacherCard = document.createElement('div');
-    newTeacherCard.classList.add('teacher-card');
-
-    newTeacherCard.innerHTML = `
-        <h4>${firstName} ${lastName}</h4>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Phone:</strong> ${phone}</p>
-        <p><strong>Employee ID:</strong> ${employeeId}</p>
-        <p><strong>Subjects:</strong> ${subjects}</p>
-        <p><strong>Date of Joining:</strong> ${new Date(dateOfJoining).toLocaleDateString()}</p>
-        <p><strong>Address:</strong> ${address}</p>
-    `;
-
-    // Add the new card to the grid
-    teacherGrid.appendChild(newTeacherCard);
-
-    // Close the modal after adding the teacher
-    closeModal();
-
-    // Clear the form fields for the next input
-    document.querySelector('form').reset();
-});
-
-
-document.getElementById('addSubjectBtn').addEventListener('click', function () {
-    const subjectInputs = document.getElementById('subjectInputs');
-    const newInput = document.createElement('input');
-    newInput.type = 'text';
-    newInput.name = 'subjects[]';
-    newInput.classList.add('subject-input');
-    newInput.required = true;
-    subjectInputs.appendChild(newInput);
-});
-
+        document.getElementById('addSubjectBtn').addEventListener('click', function () {
+            const subjectInputs = document.getElementById('subjectInputs');
+            const newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'subjects[]';
+            newInput.classList.add('subject-input');
+            newInput.required = true;
+            subjectInputs.appendChild(newInput);
+        });
     </script>
 </body>
 </html>

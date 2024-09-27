@@ -5,21 +5,20 @@ const Schema = mongoose.Schema;
 const teacherSchema = new Schema({
     firstName: {
         type: String,
-        required: true,
+        
         trim: true
     },
     password: {
         type: String,
-        required: true
-    },
+            },
     lastName: {
         type: String,
-        required: true,
+        
         trim: true
     },
     email: {
         type: String,
-        required: true,
+        
         unique: true,
         trim: true,
         lowercase: true,
@@ -27,34 +26,31 @@ const teacherSchema = new Schema({
     },
     phone: {
         type: String,
-        required: true,
+        
         trim: true
     },
     employeeId: {
         type: String,
-        required: true,
+        
         unique: true,
         trim: true
     },
     classes: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Class',  
-        required: true
-    }],
+            }],
     subjects: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Subject', 
-        required: true
-    }],
+            }],
     dateOfJoining: {
         type: Date,
-        required: true
-    },
+            },
     address: {
-        street: { type: String, required: true },
-        city: { type: String, required: true },
-        state: { type: String, required: true },
-        zip: { type: String, required: true }
+        street: { type: String, },
+        city: { type: String, },
+        state: { type: String, },
+        zip: { type: String, }
     },
     createdAt: {
         type: Date,

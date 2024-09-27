@@ -1,11 +1,71 @@
 const PendingAdmission = require('../models/pending_admission');
+const Teachers  = require("./../models/Teachers")
 const Student = require("../models/Student")
+const Subject = require('./../models/subject');
 exports.getadminController = async (req, res) => {
     res.render('admin')
 };
+
 exports.getteachController = async (req, res) => {
-    res.render('teacher')
+    try {
+        const teachers_data = await Teachers.find({}).populate('subjects', 'name');;
+        res.render('teacher' , {teachers : teachers_data
+        })
+    } catch (error) {
+        console.error('Error fetching teachers info', error)
+    }
+    
 };
+exports.postteachController = async (req, res) => {
+    try {
+        const { firstName, lastName, email, phone, employeeId, subjects, dateOfJoining, address } = req.body;
+
+        
+        const subjectIds = await Promise.all(subjects.map(async (subjectName) => {
+            let subject = await Subject.findOne({ name: subjectName.trim() });
+
+            if (!subject) {
+                subject = new Subject({ name: subjectName.trim(), code: subjectName.trim().toLowerCase() });
+                await subject.save();
+            }
+
+            return subject._id; 
+        }));
+
+ 
+        const newTeacher = new Teachers({
+            firstName,
+            lastName,
+            email,
+            phone,
+            employeeId,
+            subjects: subjectIds, 
+            dateOfJoining,
+            address: {
+                street: address.street,
+                city: address.city,
+                state: address.state,
+                zip: address.zip
+            }
+        });
+
+    
+        const savedTeacher = await newTeacher.save();
+
+        
+        res.status(201).json({
+            message: 'Teacher added successfully',
+            teacher: savedTeacher
+        });
+    } catch (error) {
+        console.error('Error adding teacher:', error);
+        res.status(500).json({
+            message: 'An error occurred while adding the teacher',
+            error: error.message
+        });
+    }
+}
+
 exports.getstudentController = async (req, res) => {
     try {
     
@@ -44,8 +104,6 @@ exports.updateEnrollmentStatus = async (req, res) => {
                 classes: [admission.grade],  
                 subjects: [],  
                 dateOfEnrollment: new Date(),
-                
-
             });
             await newStudent.save();
             await PendingAdmission.findByIdAndDelete(id);
