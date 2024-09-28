@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Salaries - Admin Panel</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/salaries.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Teacher Salaries Management</h1>
+
+    <!-- Filter Section -->
+    <div class="filter-section">
+        <div>
+            <input type="text" id="searchTeacher" placeholder="Search by Teacher Name">
+            <select id="gradeFilter">
+                <option value="">All Grades</option>
+                <option value="Grade 1">Grade 1</option>
+                <option value="Grade 2">Grade 2</option>
+                <option value="Grade 3">Grade 3</option>
+                <!-- Add more grades as per requirement -->
+            </select>
+            <select id="subjectFilter">
+                <option value="">All Subjects</option>
+                <option value="Math">Math</option>
+                <option value="Science">Science</option>
+                <option value="English">English</option>
+                <!-- Add more subjects as per requirement -->
+            </select>
+        </div>
+        <button class="btn" onclick="openAddSalaryForm()">Add Salary Record</button>
+    </div>
+
+    <!-- Salary Table -->
+    <table class="salary-table">
+        <thead>
+        <tr>
+            <th>Teacher Name</th>
+            <th>Grade</th>
+            <th>Subject</th>
+            <th>Monthly Salary (₹)</th>
+            <th>Month</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Example row -->
+        <tr>
+            <td>John Doe</td>
+            <td>Grade 5</td>
+            <td>Math</td>
+            <td>50,000</td>
+            <td>August 2024</td>
+            <td>Paid</td>
+            <td class="action-icons">
+                <i class="fas fa-edit" title="Edit" onclick="editSalary()"></i>
+                <i class="fas fa-trash" title="Delete" onclick="deleteSalary()"></i>
+                <i class="fas fa-file-invoice-dollar" title="Generate Salary Slip" onclick="generateSalarySlip()"></i>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Add/Update Salary Form Modal -->
+    <div id="salaryForm" class="salary-form-modal">
+        <div class="salary-update-form">
+            <span class="close-btn" onclick="closeSalaryForm()">&times;</span>
+            <h2>Add/Update Salary Record</h2>
+            <form>
+                <label for="teacherName">Teacher Name</label>
+                <input type="text" id="teacherName" name="teacherName" placeholder="Enter teacher's name" required>
+
+                <label for="grade">Grade</label>
+                <input type="text" id="grade" name="grade" placeholder="Enter grade">
+
+                <div class="form-group">
+                    <label for="subjects">Subjects</label>
+                    <div id="subject-container">
+                        <input type="text" id="subject" name="subjects[]" placeholder="Enter subject" required>
+                    </div>
+                    <button type="button" id="add-subject-btn" class="add-btn">Add Subject</button>
+                </div>
+
+                <label for="salary">Monthly Salary (₹)</label>
+                <input type="number" id="salary" name="salary" placeholder="Enter salary amount" required>
+
+                <label for="month">Month</label>
+                <input type="month" id="month" name="month" required>
+
+                <button type="submit" class="submi">Submit</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // Open the Add Salary Form Modal
+    function openAddSalaryForm() {
+        document.getElementById('salaryForm').style.display = 'flex';
+    }
+
+    // Close the Salary Form Modal
+    function closeSalaryForm() {
+        document.getElementById('salaryForm').style.display = 'none';
+    }
+
+    // Edit Salary Record
+    function editSalary() {
+        alert("Edit functionality will go here.");
+    }
+
+    // Delete Salary Record
+    function deleteSalary() {
+        if (confirm("Are you sure you want to delete this salary record?")) {
+            alert("Salary record deleted.");
+        }
+    }
+
+    // Generate Salary Slip
+    function generateSalarySlip() {
+        alert("Generate salary slip functionality will go here.");
+    }
+
+
+    document.getElementById('add-subject-btn').addEventListener('click', function() {
+        // Create a new input field for an additional subject
+        var newSubjectField = document.createElement('input');
+        newSubjectField.setAttribute('type', 'text');
+        newSubjectField.setAttribute('name', 'subjects[]');
+        newSubjectField.setAttribute('placeholder', 'Enter another subject');
+        newSubjectField.setAttribute('required', true);
+        
+        // Style the new input field
+        newSubjectField.style.width = "100%";
+        newSubjectField.style.padding = "8px";
+        newSubjectField.style.display = "block";
+        newSubjectField.style.marginBottom = "10px";
+        newSubjectField.style.boxSizing = "border-box";
+
+        // Append the new input field to the subject container
+        document.getElementById('subject-container').appendChild(newSubjectField);
+    });
+
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,177 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    margin: 0 auto;
+    padding-top: 2rem;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #343a40;
+}
+
+.salary-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.salary-table th, .salary-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.salary-table th {
+    background-color: #007bff;
+    color: white;
+}
+
+.salary-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.filter-section {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-section input[type="text"],
+.filter-section select {
+    padding: 8px;
+    width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.action-icons {
+    text-align: center;
+}
+
+.action-icons i {
+    font-size: 20px;
+    margin: 0 15px;
+    cursor: pointer;
+    color: #218838;
+    vertical-align: middle;
+}
+
+.action-icons i:hover {
+    color: #1c7430;
+}
+
+
+/* Salary Form Modal */
+#salaryForm {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+.salary-update-form {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    position: relative;
+    text-align: left;
+    overflow: hidden; /* Ensure no overflow */
+    box-sizing: border-box; /* Ensure padding is accounted for inside the width */
+}
+
+.salary-update-form input[type="text"],
+.salary-update-form input[type="number"],
+.salary-update-form input[type="month"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensure padding doesn't push elements outside */
+}
+
+.salary-update-form button.submi {
+    width: 100%; /* Ensure button fits the form width */
+    padding: 10px 15px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.salary-update-form button.submi:hover {
+    background-color: #218838;
+}
+
+
+/* Close Button */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 2rem;
+    color: #000;
+    cursor: pointer;
+}
+
+.close-btn:hover {
+    color: red;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+#subject-container input {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+
+.add-btn {
+    width: 6rem;
+    background-color: #7b8a7e;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.add-btn:hover {
+    background-color: #525553;
+}
