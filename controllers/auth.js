@@ -37,7 +37,7 @@ exports.postloginController = (req, res, next) => {
                 if (err) {
                     return res.status(500).json({ message: 'Login failed' });
                 }
-                return res.redirect('/admin'); 
+                return res.redirect('/teachAdmin'); 
             });
         })(req, res, next);
     } else {
