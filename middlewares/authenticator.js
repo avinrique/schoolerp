@@ -37,7 +37,7 @@ const isAuthenticated = (req, res, next) => {
 //     }
 //     res.redirect('/auth/login')
 // };
-console.log("asds")
+
 const ensureAdmin = (req, res, next) => {
     if (req.isAuthenticated() && req.user.role === 'admin') {
         return next();
@@ -45,7 +45,9 @@ const ensureAdmin = (req, res, next) => {
     res.status(403).send('Access denied: Admins only.')
 };
 
+
 const ensureTeacher = (req, res, next) => {
+    console.log("asdsaaaaaaaaaaaa")
     if (req.isAuthenticated() && req.user.role === 'teacher') {
         return next();
     }

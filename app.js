@@ -13,6 +13,7 @@ const initializePassport = require('./passport-config');
 const LocalStrategy = require('passport-local').Strategy;
 const Teacher = require("./models/Teachers")
 const User = require("./models/User")
+const teacherAdmin = require('./routes/teacherAdmin')
 
 const fs = require('fs');
 const { runInNewContext } = require('vm');
@@ -95,6 +96,7 @@ function checkFileType(file, cb) {
 app.use('/', homeRoute);
 app.use('/auth', authRoute);
 app.use('/admin', adminRoute);
+app.use("/teachAdmin",teacherAdmin)
 
 // error handleing middleware
 app.use((err, req, res, next) => {
