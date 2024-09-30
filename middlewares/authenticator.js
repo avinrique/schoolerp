@@ -47,7 +47,7 @@ const ensureAdmin = (req, res, next) => {
 
 
 const ensureTeacher = (req, res, next) => {
-    console.log("asdsaaaaaaaaaaaa")
+ 
     if (req.isAuthenticated() && req.user.role === 'teacher') {
         return next();
     }

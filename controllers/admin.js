@@ -8,8 +8,7 @@ exports.getadminController = async (req, res) => {
         const totalTeachers = await Teachers.countDocuments()
         const totalpendingaddmissions =  await PendingAdmission.countDocuments({status :"Pending"})
         const totalapprovedaddmissions =  await PendingAdmission.countDocuments({status :"Accepted"})
-        console.log(totalstudent , totalTeachers ,  totalpendingaddmissions,totalapprovedaddmissions)
-
+       
         res.render('admin' , {totalstudent , totalTeachers ,totalpendingaddmissions , totalapprovedaddmissions})
     } catch (error) {
         
