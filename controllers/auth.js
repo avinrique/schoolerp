@@ -1,40 +1,66 @@
 const User = require('./../models/User');  
 const Teacher = require('../models/Teachers'); 
-const jwt = require('jsonwebtoken');
+const passport = require('passport');
+require('dotenv').config();
 
 exports.getloginController = async (req, res) =>{
     res.render('login')    
 }
-exports.postloginController = async (req, res) =>{
-    const { email, password, role } = req.body; 
+
+exports.postloginController = (req, res, next) => {
+    const { email, password, role } = req.body;
+
+    if (role === 'admin') {
+        passport.authenticate('admin', (err, user, info) => {
+            if (err) {
+                return res.status(500).json({ message: 'Server error' });
+            }
+            if (!user) {
+                return res.status(400).json({ message: info.message });
+            }
+            req.logIn(user, (err) => {
+                if (err) {
+                    return res.status(500).json({ message: 'Login failed' });
+                }
+                return res.redirect('/admin'); 
+            });
+        })(req, res, next);
+    } else if (role === 'teacher') {
+        passport.authenticate('teacher', (err, user, info) => {
+            if (err) {
+                return res.status(500).json({ message: 'Server error' });
+            }
+            if (!user) {
+                return res.status(400).json({ message: info.message });
+            }
+            req.logIn(user, (err) => {
+                if (err) {
+                    return res.status(500).json({ message: 'Login failed' });
+                }
+                return res.redirect('/admin'); 
+            });
+        })(req, res, next);
+    } else {
+        return res.status(400).json({ message: 'Invalid role' });
+    }
+};
+
+
+
+
+exports.getSignupForm = (req, res) => {
+    res.render('signup'); 
+};
+
+exports.signupAdmin = async (req, res) => {
+    const { email, password } = req.body;
 
     try {
-        if (role === 'admin') {
-           
-            const user = await User.findOne({ email });
-            if (!user) return res.status(400).json({ message: 'Admin not found' });
-
-            const isMatch = await user.matchPassword(password);
-            if (!isMatch) return res.status(400).json({ message: 'Invalid password' });
-
-           
-            const token = jwt.sign({ id: user._id, role: 'admin' }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            res.json({ token, role: 'admin' });
-        } else if (role === 'teacher') {
-           
-            const teacher = await Teacher.findOne({ email });
-            if (!teacher) return res.status(400).json({ message: 'Teacher not found' });
-
-            const isMatch = await teacher.matchPassword(password);
-            if (!isMatch) return res.status(400).json({ message: 'Invalid password' });
-
-            
-            const token = jwt.sign({ id: teacher._id, role: 'teacher' }, process.env.JWT_SECRET, { expiresIn: '1h' });
-            res.json({ token, role: 'teacher' });
-        } else {
-            res.status(400).json({ message: 'Invalid role' });
-        }
+        const user = new User({ email, password });
+        await user.save();
+        res.status(201).redirect('/auth/login'); 
     } catch (error) {
-        res.status(500).json({ error: 'Server error' });
+        console.error(error);
+        res.status(400).render('signup', { error: 'Error creating user. Please try again.' });
     }
 };

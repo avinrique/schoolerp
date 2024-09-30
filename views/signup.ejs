@@ -1,59 +1,27 @@
+<!-- views/signup.ejs -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Signup - School ERP</title>
-    <link rel="stylesheet" href="../public/css/adm_signup.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <title>Admin Signup</title>
+    <link rel="stylesheet" href="/public/styles.css">
 </head>
 <body>
-    <div class="signup-container">
-        <div class="signup-box">
-            <h2>Admin Signup</h2>
-            <form id="adminSignupForm" onsubmit="return validateSignupForm()">
-                <div class="input-group">
-                    <input type="text" id="fullName" name="fullName" placeholder="Full Name" required>
-                </div>
-                
-                <div class="input-group">
-                    <input type="email" id="email" name="email" placeholder="Email" required>
-                </div>
-
-                <div class="input-group">
-                    <input type="text" id="phone" name="phone" placeholder="Phone Number" required>
-                </div>
-
-                <div class="input-group">
-                    <input type="text" id="username" name="username" placeholder="Username" required>
-                </div>
-
-                <div class="input-group">
-                    <input type="password" id="password" name="password" placeholder="Password" required>
-                </div>
-
-                <div class="input-group">
-                    <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
-                </div>
-
-                <button type="submit" class="signup-btn">Sign Up</button>
-
-                <p class="login-link">Already have an account? <a href="/login">Login here</a></p>
-            </form>
+    <h1>Admin Signup</h1>
+    <form action="/auth/signup" method="POST">
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" name="email" required>
         </div>
-    </div>
-
-    <script>
-        function validateSignupForm() {
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirmPassword").value;
-
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
-                return false;
-            }
-            return true;
-        }
-    </script>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" name="password" required>
+        </div>
+        <button type="submit">Signup</button>
+    </form>
+    <% if (typeof error !== 'undefined') { %>
+        <p style="color: red;"><%= error %></p>
+    <% } %>
 </body>
 </html>

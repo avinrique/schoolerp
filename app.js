@@ -1,44 +1,71 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser')
-const app = express();
+const bodyParser = require('body-parser');
 const path = require('path');
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const passport = require('passport');
+const multer = require('multer');
 const homeRoute = require('./routes/home');
 const authRoute = require('./routes/auth');
-const adminRoute = require('./routes/admin')
-const multer = require('multer');
+const adminRoute = require('./routes/admin');
+const initializePassport = require('./passport-config');
+const LocalStrategy = require('passport-local').Strategy;
+const Teacher = require("./models/Teachers")
+const User = require("./models/User")
+
+const fs = require('fs');
+const { runInNewContext } = require('vm');
+
+//upload dir to uploads
+const uploadsDir = './uploads';
+if (!fs.existsSync(uploadsDir)){
+    fs.mkdirSync(uploadsDir);
+}
+
+
+const app = express();
 
 // middlewares
 app.use(express.static("public"));
-app.use(express.json())
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+//session steup
+const dbname = "schoolerps";
+const dburl = process.env.DB_URL + dbname; // From .env
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ mongoUrl: dburl }),
+}));
+
+//pasport innitilaization
+initializePassport(passport);
+app.use(passport.initialize());
+app.use(passport.session());
+
+// db conn
+mongoose.connect(dburl, {
 
 
-//database
-const dbname = "schoolerps"
-const dburl = "mongodb+srv://avin:avin@cluster0.fhxczjk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-mongoose.connect(dburl+dbname, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
 })
 .then(() => console.log('MongoDB connected'))
 .catch((err) => console.log(err));
 
-
-//multer configuration
+// multer configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads'); 
+        cb(null, uploadsDir);
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); 
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
     }
 });
-
 
 const upload = multer({
     storage: storage,
@@ -51,7 +78,7 @@ const upload = multer({
     { name: 'transfer_certificate', maxCount: 1 }
 ]);
 
-//filtype check
+//file type check
 function checkFileType(file, cb) {
     const filetypes = /jpeg|jpg|png|pdf/;
     const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
@@ -64,9 +91,15 @@ function checkFileType(file, cb) {
     }
 }
 
-
 // routes
 app.use('/', homeRoute);
-app.use('/auth',authRoute)
-app.use('/admin',adminRoute)
+app.use('/auth', authRoute);
+app.use('/admin', adminRoute);
+
+// error handleing middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
+
 module.exports = { app, upload };

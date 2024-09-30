@@ -3,8 +3,27 @@ const Teachers  = require("./../models/Teachers")
 const Student = require("../models/Student")
 const Subject = require('./../models/subject');
 exports.getadminController = async (req, res) => {
-    res.render('admin')
+    try {
+        const totalstudent = await Student.countDocuments()
+        const totalTeachers = await Teachers.countDocuments()
+        const totalpendingaddmissions =  await PendingAdmission.countDocuments({status :"Pending"})
+        const totalapprovedaddmissions =  await PendingAdmission.countDocuments({status :"Accepted"})
+        console.log(totalstudent , totalTeachers ,  totalpendingaddmissions,totalapprovedaddmissions)
+
+        res.render('admin' , {totalstudent , totalTeachers ,totalpendingaddmissions , totalapprovedaddmissions})
+    } catch (error) {
+        
+    }
+
+ 
+
+
+    
 };
+
+
+
+
 
 exports.getteachController = async (req, res) => {
     try {
@@ -16,9 +35,11 @@ exports.getteachController = async (req, res) => {
     }
     
 };
+
+
 exports.postteachController = async (req, res) => {
     try {
-        const { firstName, lastName, email, phone, employeeId, subjects, dateOfJoining, address } = req.body;
+        const { firstName, lastName, email, phone, employeeId, subjects, dateOfJoining, address ,password} = req.body;
 
         
         const subjectIds = await Promise.all(subjects.map(async (subjectName) => {
@@ -38,6 +59,7 @@ exports.postteachController = async (req, res) => {
             lastName,
             email,
             phone,
+            password,
             employeeId,
             subjects: subjectIds, 
             dateOfJoining,
@@ -49,7 +71,7 @@ exports.postteachController = async (req, res) => {
             }
         });
 
-    
+
         const savedTeacher = await newTeacher.save();
 
         
@@ -66,6 +88,7 @@ exports.postteachController = async (req, res) => {
     }
 }
 
+
 exports.getstudentController = async (req, res) => {
     try {
     
@@ -78,6 +101,8 @@ exports.getstudentController = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+
 
 exports.updateEnrollmentStatus = async (req, res) => {
     const { id, action } = req.body;

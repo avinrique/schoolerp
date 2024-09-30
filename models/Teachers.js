@@ -59,6 +59,10 @@ const teacherSchema = new Schema({
     updatedAt: {
         type: Date,
         default: Date.now
+    },
+    role: {
+        type : String,
+        default : "teacher"
     }
 });
 
