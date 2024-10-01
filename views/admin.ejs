@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - School ERP</title>
     <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">  
         <h2>School ERP</h2>
         <ul>
             <li><a href="#dashboard">Dashboard</a></li>
@@ -22,7 +23,7 @@
     <div class="main-content">
         <div class="header">
             <h1>Admin Dashboard</h1>
-            <button class="logout-btn">Logout</button>
+            <button class="logout-btn">Logout</button> 
         </div>
 
         <div class="overview">
@@ -50,6 +51,20 @@
             </div>
         </div>
     </div>
-    <script src="../test.js"></script>
+    <!-- <script>
+        const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+        const closeBtn = document.getElementById('close-btn');
+
+        // Function to show sidebar on hamburger click
+        hamburger.addEventListener('click', function() {
+            sidebar.style.right = '0';
+        });
+
+        // Function to hide sidebar on close button click
+        closeBtn.addEventListener('click', function() {
+            sidebar.style.right = '-250px';
+        });
+    </script> -->
 </body>
 </html>
