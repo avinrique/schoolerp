@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="/css/pen_std.css">
 </head>
 <body>
+    <div class="sidebar" id="sidebar">  
+        <h2>School ERP</h2>
+        <ul>
+            <li><a href="/admin">Dashboard</a></li>
+            <li><a href="/admin/pending_students">Admissions</a></li>
+            <li><a href="/admin/teachers">Teachers</a></li>
+            <li><a href="/admin/fees">Fees</a></li>
+            <li><a href="#salaries">Salaries</a></li>
+            <li><a href="#infrastructure">Infrastructure</a></li>
+        </ul>
+    </div>
     <div class="admin-dashboard">
         <h1>Pending Student Enrollment Requests</h1>
 
@@ -53,7 +64,7 @@
 
     </div>
 
-    <div class="admin-dashboard"></div>
+    <div class="admin-dashboard">
         <h1>Accepted Student Enrollment Status</h1>
 
         <% if (acceptedStudents.length > 0) { %>

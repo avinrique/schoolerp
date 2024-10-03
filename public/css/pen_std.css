@@ -4,8 +4,59 @@ body {
     margin: 0;
     padding: 20px;
 }
+/* Sidebar styling */
+.sidebar {
+    box-sizing: border-box;
+    width: 250px;
+    background-color: #007BFF; /* Professional blue */
+    color: white;
+    padding: 1.5rem 0;
+    position: fixed; /* Make sidebar fixed */
+    top: 0;
+    left: 0;
+    height: 100vh; /* Full height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    z-index: 1000;
+    transition: all 0.3s ease-in-out;
+}
 
-h1 {
+.sidebar h2 {
+    box-sizing: border-box;
+    margin-bottom: 40px;
+    padding: 0;
+}
+
+.sidebar ul {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar ul li {
+    margin: 20px 0;
+    width: 100%;
+}
+
+.sidebar ul li a {
+    text-decoration: none;
+    color: white;
+    font-size: 18px;
+    display: block;
+    padding: 10px 20px;
+    text-align: center;
+    border-radius: 8px;
+    transition: background-color 0.3s ease; /* Animation */
+}
+
+.sidebar ul li a:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.admin-dashboard h1{
     text-align: center;
     color: #333;
 }
@@ -13,7 +64,9 @@ h1 {
 .admin-dashboard {
     width: 80%;
     margin: 0 auto;
+    margin-left: 250px;
 }
+
 
 .enrollment-box {
     background-color: #fff;
