@@ -2,6 +2,8 @@ const PendingAdmission = require('../models/pending_admission');
 const Teachers  = require("./../models/Teachers")
 const Student = require("../models/Student")
 const Subject = require('./../models/subject');
+const Classs = require("./../models/class")
+const Routine = require("./../models/Routine")
 exports.getadminController = async (req, res) => {
     try {
         const totalstudent = await Student.countDocuments()
@@ -38,7 +40,7 @@ exports.getteachController = async (req, res) => {
 
 exports.postteachController = async (req, res) => {
     try {
-        const { firstName, lastName, email, phone, employeeId, subjects, dateOfJoining, address ,password} = req.body;
+        const { firstName, lastName, email, phone, employeeId, subjects, dateOfJoining, address ,password, classNumber,sections } = req.body;
 
         
         const subjectIds = await Promise.all(subjects.map(async (subjectName) => {
@@ -52,6 +54,25 @@ exports.postteachController = async (req, res) => {
             return subject._id; 
         }));
 
+        console.log(classNumber)
+        
+
+        const classPromises = classNumber.map(async (classItem, index) => {
+            const sectionList = sections[index].split(',').map(section => section.trim());
+            const sectionPromises = sectionList.map(async (section) => {
+                // Check if the class and section combination already exists in the database
+                let existingClass = await Classs.findOne({ class: classItem, section });
+                if (!existingClass) {
+                    // Create a new class entry if it doesn't exist
+                    existingClass = new Classs({ class: classItem, section });
+                    await existingClass.save();
+                }
+                return existingClass._id; // Return the ObjectId of the class
+            });
+            return Promise.all(sectionPromises);
+        });
+
+        const classSectionIds = (await Promise.all(classPromises)).flat();
  
         const newTeacher = new Teachers({
             firstName,
@@ -60,6 +81,7 @@ exports.postteachController = async (req, res) => {
             phone,
             password,
             employeeId,
+            classes:  classSectionIds,
             subjects: subjectIds, 
             dateOfJoining,
             address: {
@@ -101,6 +123,70 @@ exports.getstudentController = async (req, res) => {
     }
 };
 
+
+
+
+exports.getroutineController = async (req, res) => {
+    try {
+        const teachers_data = await Teachers.find({}).populate('subjects', 'name');;
+        const { teacherId } = req.params;
+        const routine = await Routine.find({ teacher: teacherId })
+            .populate('teacher', 'firstName lastName')
+            .populate('subject', 'name')
+            .populate('class', 'class section')
+            .exec();
+
+      res.render('routine' , {routine : routine , teacher : teachers_data})
+    } catch (error) {
+        console.error('Error fetching routine:', error);
+        res.status(500).json({
+            message: 'An error occurred while fetching the routine',
+            error: error.message
+        });
+    }
+}
+
+
+
+exports.postroutineController = async (req, res) => {
+    try {
+        const { teacherId, dayOfWeek, startTime, endTime, subjectId, classId, roomNumber, notes } = req.body;
+
+        // Check if the teacher, subject, and class exist
+        const teacher = await Teacher.findById(teacherId);
+        const subject = await Subject.findById(subjectId);
+        const classs = await Classs.findById(classId);
+
+        if (!teacher || !subject || !classs) {
+            return res.status(404).json({ message: 'Invalid teacher, subject, or class ID' });
+        }
+
+        // Create a new routine entry
+        const newRoutine = new Routine({
+            teacher: teacherId,
+            dayOfWeek,
+            timeSlot: { startTime, endTime },
+            subject: subjectId,
+            class: classId,
+            roomNumber,
+            notes
+        });
+
+        // Save the routine to the database
+        const savedRoutine = await newRoutine.save();
+
+        res.status(201).json({
+            message: 'Routine created successfully',
+            routine: savedRoutine
+        });
+    } catch (error) {
+        console.error('Error creating routine:', error);
+        res.status(500).json({
+            message: 'An error occurred while creating the routine',
+            error: error.message
+        });
+    }
+}
 
 
 exports.updateEnrollmentStatus = async (req, res) => {

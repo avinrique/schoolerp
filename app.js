@@ -26,7 +26,6 @@ if (!fs.existsSync(uploadsDir)){
 
 
 const app = express();
-
 // middlewares
 app.use(express.static("public"));
 app.use(express.json());

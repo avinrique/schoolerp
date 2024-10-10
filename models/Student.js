@@ -14,8 +14,6 @@ const studentSchema = new Schema({
     },
     email: {
         type: String,
-        
-        
         trim: true,
         lowercase: true,
         match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email address']
@@ -31,6 +29,9 @@ const studentSchema = new Schema({
     },
     class: {
         type : String
+    },
+    section :{
+        type: String
     },
     subjects: [{
         type: mongoose.Schema.Types.ObjectId,

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/css/teacher.css">
 </head>
 <body>
-    <div class="sidebar" id="sidebar">  
+   
         <h2>School ERP</h2>
         <ul>
             <li><a href="/admin">Dashboard</a></li>
@@ -106,6 +106,26 @@
                         <button type="button" id="addSubjectBtn">Add Subject</button>
                     </div>
                 </div>
+
+                <div id="classSectionContainer">
+                    <div class="class-group">
+                        <label for="classNumber">Class:</label>
+                        <select name="classNumber[]" class="class-number-select" required>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                        </select>
+                        <label for="sections">Sections:</label>
+                        <input type="text" name="sections[]" class="section-input" placeholder="e.g., A,B,C" required>
+                        <button type="button" class="remove-class-btn">Remove Class</button>
+                    </div>
+                </div>
+                <button type="button" id="addClassSectionBtn">Add Class</button>
                 <div class="firstrow">
                     <div class="form-group">
                         <label for="dateOfJoining">Date of Joining</label>
@@ -139,6 +159,46 @@
             newInput.required = true;
             subjectInputs.appendChild(newInput);
         });
+        //
+        document.getElementById('addClassSectionBtn').addEventListener('click', function () {
+    const container = document.getElementById('classSectionContainer');
+    const newClassGroup = document.createElement('div');
+    newClassGroup.classList.add('class-group');
+
+    newClassGroup.innerHTML = `
+        <label for="classNumber">Class:</label>
+        <select name="classNumber[]" class="class-number-select" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+        </select>
+        <label for="sections">Sections:</label>
+        <input type="text" name="sections[]" class="section-input" placeholder="e.g., A,B,C" required>
+        <button type="button" class="remove-class-btn">Remove Class</button>
+    `;
+
+    container.appendChild(newClassGroup);
+
+    // Add event listener for the new remove button
+    newClassGroup.querySelector('.remove-class-btn').addEventListener('click', function () {
+        container.removeChild(newClassGroup);
+    });
+});
+
+// Remove class group functionality for existing remove buttons
+document.querySelectorAll('.remove-class-btn').forEach(button => {
+    button.addEventListener('click', function () {
+        const container = document.getElementById('classSectionContainer');
+        container.removeChild(this.parentElement);
+    });
+});
+
+        //
 
         function togglePasswordVisibility() {
         const passwordInput = document.getElementById("password");

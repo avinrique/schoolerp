@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Teacher Routine</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        .teacher-list {
+            border: 1px solid #ccc;
+            max-height: 200px;
+            overflow-y: auto;
+            display: none;
+        }
+        .teacher-list div {
+            padding: 10px;
+            cursor: pointer;
+        }
+        .teacher-list div:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Manage Teacher Routine</h2>
+
+    <label for="teacherSearch">Search Teacher:</label>
+    <input type="text" id="teacherSearch" placeholder="Type teacher's name" autocomplete="off">
+    
+    <div class="teacher-list" id="teacherList"></div>
+
+    <form id="routineForm" style="display:none;">
+        <h3>Routine Details</h3>
+        <input type="hidden" id="teacherId" name="teacherId">
+        
+        <label for="dayOfWeek">Day of the Week:</label>
+        <select id="dayOfWeek" name="dayOfWeek" required>
+            <option value="">-- Select Day --</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+        </select><br><br>
+
+        <label for="startTime">Start Time:</label>
+        <input type="time" id="startTime" name="startTime" required><br><br>
+
+        <label for="endTime">End Time:</label>
+        <input type="time" id="endTime" name="endTime" required><br><br>
+
+        <label for="subject">Subject:</label>
+        <select id="subject" name="subjectId" required>
+            <option value="">-- Select Subject --</option>
+            <% subjects.forEach(subject => { %>
+                <option value="<%= subject._id %>"><%= subject.name %></option>
+            <% }) %>
+        </select><br><br>
+
+        <label for="class">Class:</label>
+        <select id="class" name="classId" required>
+            <option value="">-- Select Class --</option>
+            <% classes.forEach(classItem => { %>
+                <option value="<%= classItem._id %>"><%= classItem.class %> <%= classItem.section %></option>
+            <% }) %>
+        </select><br><br>
+
+        <label for="roomNumber">Room Number:</label>
+        <input type="text" id="roomNumber" name="roomNumber" required><br><br>
+
+        <label for="notes">Notes:</label>
+        <textarea id="notes" name="notes"></textarea><br><br>
+
+        <button type="button" onclick="updateRoutine()">Save Routine</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            $('#teacherSearch').on('input', function() {
+                const searchQuery = $(this).val().trim();
+                if (searchQuery.length > 0) {
+                    $.get(`/searchTeachers?query=${searchQuery}`, function(data) {
+                        if (data.teachers.length > 0) {
+                            $('#teacherList').empty().show();
+                            data.teachers.forEach(teacher => {
+                                $('#teacherList').append(`<div data-id="${teacher._id}">${teacher.firstName} ${teacher.lastName}</div>`);
+                            });
+                        } else {
+                            $('#teacherList').hide();
+                        }
+                    });
+                } else {
+                    $('#teacherList').hide();
+                }
+            });
+
+            // Handle teacher selection
+            $(document).on('click', '.teacher-list div', function() {
+                const teacherId = $(this).data('id');
+                $('#teacherId').val(teacherId);
+                $('#teacherSearch').val($(this).text());
+                $('#teacherList').hide();
+                
+                // Fetch existing routine for the selected teacher
+                $.get(`/getTeacherRoutine/${teacherId}`, function(data) {
+                    if (data.routine.length > 0) {
+                        const routine = data.routine[0];
+                        $('#dayOfWeek').val(routine.dayOfWeek);
+                        $('#startTime').val(routine.timeSlot.startTime);
+                        $('#endTime').val(routine.timeSlot.endTime);
+                        $('#subject').val(routine.subject._id); // Assuming subject._id is returned
+                        $('#class').val(routine.class._id); // Assuming class._id is returned
+                        $('#roomNumber').val(routine.roomNumber);
+                        $('#notes').val(routine.notes);
+                    } else {
+                        // Clear the form if no routine exists
+                        $('#routineForm').find('input, textarea').val('');
+                    }
+                    $('#routineForm').show();
+                });
+            });
+
+            // Hide teacher list when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('#teacherSearch').length) {
+                    $('#teacherList').hide();
+                }
+            });
+        });
+
+        function updateRoutine() {
+            const formData = $('#routineForm').serialize();
+            $.post('/updateRoutine', formData, function(response) {
+                alert(response.message);
+                $('#routineForm').find('input, textarea').val('');
+                $('#teacherSearch').val('');
+                $('#teacherList').hide();
+                $('#routineForm').hide();
+            }).fail(function(error) {
+                alert('Error updating routine: ' + error.responseJSON.message);
+            });
+        }
+    </script>
+
+</body>
+</html>
