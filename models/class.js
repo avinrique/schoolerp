@@ -7,7 +7,8 @@ const classSchema = new Schema({
     },
     section: {
         type: String,
-        required: true
+        required: true,
+        default : null
     }
 });
 

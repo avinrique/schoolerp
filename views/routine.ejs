@@ -7,17 +7,17 @@
     <title>Manage Teacher Routine</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        .teacher-list {
+        .dropdown-list {
             border: 1px solid #ccc;
             max-height: 200px;
             overflow-y: auto;
             display: none;
         }
-        .teacher-list div {
+        .dropdown-list div {
             padding: 10px;
             cursor: pointer;
         }
-        .teacher-list div:hover {
+        .dropdown-list div:hover {
             background-color: #f0f0f0;
         }
     </style>
@@ -26,15 +26,21 @@
 
     <h2>Manage Teacher Routine</h2>
 
-    <label for="teacherSearch">Search Teacher:</label>
-    <input type="text" id="teacherSearch" placeholder="Type teacher's name" autocomplete="off">
-    
-    <div class="teacher-list" id="teacherList"></div>
+    <!-- Class selection -->
+    <label for="classSelect">Select Class:</label>
+    <select id="classSelect">
+        <option value="">-- Select Class --</option>
+    </select><br><br>
 
+    <!-- Teacher selection -->
+    <label for="teacherSearch">Search Teacher:</label>
+    <input type="text" id="teacherSearch" placeholder="Type teacher's name" autocomplete="off" disabled>
+    <div class="dropdown-list" id="teacherList"></div>
+
+    <!-- Routine Form -->
     <form id="routineForm" style="display:none;">
         <h3>Routine Details</h3>
         <input type="hidden" id="teacherId" name="teacherId">
-        
         <label for="dayOfWeek">Day of the Week:</label>
         <select id="dayOfWeek" name="dayOfWeek" required>
             <option value="">-- Select Day --</option>
@@ -53,20 +59,10 @@
         <input type="time" id="endTime" name="endTime" required><br><br>
 
         <label for="subject">Subject:</label>
-        <select id="subject" name="subjectId" required>
-            <option value="">-- Select Subject --</option>
-            <% subjects.forEach(subject => { %>
-                <option value="<%= subject._id %>"><%= subject.name %></option>
-            <% }) %>
-        </select><br><br>
+        <input type="text" id="subject" name="subject" required><br><br>
 
-        <label for="class">Class:</label>
-        <select id="class" name="classId" required>
-            <option value="">-- Select Class --</option>
-            <% classes.forEach(classItem => { %>
-                <option value="<%= classItem._id %>"><%= classItem.class %> <%= classItem.section %></option>
-            <% }) %>
-        </select><br><br>
+        <label for="section">Section:</label>
+        <input type="text" id="section" name="section" required><br><br>
 
         <label for="roomNumber">Room Number:</label>
         <input type="text" id="roomNumber" name="roomNumber" required><br><br>
@@ -79,10 +75,31 @@
 
     <script>
         $(document).ready(function() {
+            // Load classes into the dropdown on page load
+            $.get('/getClasses', function(data) {
+                data.classes.forEach(cls => {
+                    $('#classSelect').append(`<option value="${cls._id}">${cls.name}</option>`);
+                });
+            });
+
+            // Enable teacher search when a class is selected
+            $('#classSelect').on('change', function() {
+                const classId = $(this).val();
+                if (classId) {
+                    $('#teacherSearch').prop('disabled', false);
+                } else {
+                    $('#teacherSearch').prop('disabled', true);
+                    $('#teacherList').hide();
+                    $('#routineForm').hide();
+                }
+            });
+
+            // Search for teachers in the selected class
             $('#teacherSearch').on('input', function() {
                 const searchQuery = $(this).val().trim();
-                if (searchQuery.length > 0) {
-                    $.get(`/searchTeachers?query=${searchQuery}`, function(data) {
+                const classId = $('#classSelect').val();
+                if (searchQuery.length > 0 && classId) {
+                    $.get(`/searchTeachers?classId=${classId}&query=${searchQuery}`, function(data) {
                         if (data.teachers.length > 0) {
                             $('#teacherList').empty().show();
                             data.teachers.forEach(teacher => {
@@ -98,7 +115,7 @@
             });
 
             // Handle teacher selection
-            $(document).on('click', '.teacher-list div', function() {
+            $(document).on('click', '#teacherList div', function() {
                 const teacherId = $(this).data('id');
                 $('#teacherId').val(teacherId);
                 $('#teacherSearch').val($(this).text());
@@ -111,12 +128,11 @@
                         $('#dayOfWeek').val(routine.dayOfWeek);
                         $('#startTime').val(routine.timeSlot.startTime);
                         $('#endTime').val(routine.timeSlot.endTime);
-                        $('#subject').val(routine.subject._id); // Assuming subject._id is returned
-                        $('#class').val(routine.class._id); // Assuming class._id is returned
+                        $('#subject').val(routine.subject);
+                        $('#section').val(routine.section);
                         $('#roomNumber').val(routine.roomNumber);
                         $('#notes').val(routine.notes);
                     } else {
-                        // Clear the form if no routine exists
                         $('#routineForm').find('input, textarea').val('');
                     }
                     $('#routineForm').show();

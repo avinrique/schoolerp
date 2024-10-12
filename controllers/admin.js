@@ -13,18 +13,9 @@ exports.getadminController = async (req, res) => {
        
         res.render('admin' , {totalstudent , totalTeachers ,totalpendingaddmissions , totalapprovedaddmissions})
     } catch (error) {
-        
-    }
 
- 
-
-
-    
+    }  
 };
-
-
-
-
 
 exports.getteachController = async (req, res) => {
     try {
@@ -60,20 +51,19 @@ exports.postteachController = async (req, res) => {
         const classPromises = classNumber.map(async (classItem, index) => {
             const sectionList = sections[index].split(',').map(section => section.trim());
             const sectionPromises = sectionList.map(async (section) => {
-                // Check if the class and section combination already exists in the database
+                
                 let existingClass = await Classs.findOne({ class: classItem, section });
                 if (!existingClass) {
-                    // Create a new class entry if it doesn't exist
+                  
                     existingClass = new Classs({ class: classItem, section });
                     await existingClass.save();
                 }
-                return existingClass._id; // Return the ObjectId of the class
+                return existingClass._id;
             });
             return Promise.all(sectionPromises);
         });
 
         const classSectionIds = (await Promise.all(classPromises)).flat();
- 
         const newTeacher = new Teachers({
             firstName,
             lastName,
@@ -91,11 +81,7 @@ exports.postteachController = async (req, res) => {
                 zip: address.zip
             }
         });
-
-
         const savedTeacher = await newTeacher.save();
-
-        
         res.status(201).json({
             message: 'Teacher added successfully',
             teacher: savedTeacher
@@ -108,8 +94,6 @@ exports.postteachController = async (req, res) => {
         });
     }
 }
-
-
 exports.getstudentController = async (req, res) => {
     try {
     
@@ -128,7 +112,10 @@ exports.getstudentController = async (req, res) => {
 
 exports.getroutineController = async (req, res) => {
     try {
-        const teachers_data = await Teachers.find({}).populate('subjects', 'name');;
+        const teachers_data = await Teachers.find({}).populate('subjects', 'name');
+        const subjects = await Subject.find({}); // Fetch all subjects
+        const classes = await Classs.find({}); // Fetch all classes
+
         const { teacherId } = req.params;
         const routine = await Routine.find({ teacher: teacherId })
             .populate('teacher', 'firstName lastName')
@@ -136,7 +123,13 @@ exports.getroutineController = async (req, res) => {
             .populate('class', 'class section')
             .exec();
 
-      res.render('routine' , {routine : routine , teacher : teachers_data})
+        console.log(routine, teachers_data);
+        res.render('routine', {
+            routine: routine,
+            teacher: teachers_data,
+            subjects: subjects, // Pass subjects to the view
+            classes: classes // Pass classes to the view
+        });
     } catch (error) {
         console.error('Error fetching routine:', error);
         res.status(500).json({
@@ -144,8 +137,7 @@ exports.getroutineController = async (req, res) => {
             error: error.message
         });
     }
-}
-
+};
 
 
 exports.postroutineController = async (req, res) => {
@@ -153,7 +145,7 @@ exports.postroutineController = async (req, res) => {
         const { teacherId, dayOfWeek, startTime, endTime, subjectId, classId, roomNumber, notes } = req.body;
 
         // Check if the teacher, subject, and class exist
-        const teacher = await Teacher.findById(teacherId);
+        const teacher = await Teachers.findById(teacherId);
         const subject = await Subject.findById(subjectId);
         const classs = await Classs.findById(classId);
 
