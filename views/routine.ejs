@@ -29,16 +29,23 @@
     <!-- Class selection -->
     <label for="classSelect">Select Class:</label>
     <select id="classSelect">
-        <option value="">-- Select Class --</option>
-    </select><br><br>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
 
-    <!-- Teacher selection -->
+    </select><br><br>
+    
     <label for="teacherSearch">Search Teacher:</label>
     <input type="text" id="teacherSearch" placeholder="Type teacher's name" autocomplete="off" disabled>
     <div class="dropdown-list" id="teacherList"></div>
 
     <!-- Routine Form -->
-    <form id="routineForm" style="display:none;">
+    <form id="routineForm" action="/admin/routine" method="post">
         <h3>Routine Details</h3>
         <input type="hidden" id="teacherId" name="teacherId">
         <label for="dayOfWeek">Day of the Week:</label>
@@ -73,7 +80,7 @@
         <button type="button" onclick="updateRoutine()">Save Routine</button>
     </form>
 
-    <script>
+    <!-- <script>
         $(document).ready(function() {
             // Load classes into the dropdown on page load
             $.get('/getClasses', function(data) {
@@ -159,7 +166,7 @@
                 alert('Error updating routine: ' + error.responseJSON.message);
             });
         }
-    </script>
+    </script> -->
 
 </body>
 </html>

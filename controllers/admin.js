@@ -113,11 +113,11 @@ exports.getstudentController = async (req, res) => {
 exports.getroutineController = async (req, res) => {
     try {
         const teachers_data = await Teachers.find({}).populate('subjects', 'name');
-        const subjects = await Subject.find({}); // Fetch all subjects
-        const classes = await Classs.find({}); // Fetch all classes
+        const subjects = await Subject.find({});
+        const classes = await Classs.find({}); 
 
-        const { teacherId } = req.params;
-        const routine = await Routine.find({ teacher: teacherId })
+        
+        const routine = await Routine.find({ })
             .populate('teacher', 'firstName lastName')
             .populate('subject', 'name')
             .populate('class', 'class section')
@@ -127,8 +127,8 @@ exports.getroutineController = async (req, res) => {
         res.render('routine', {
             routine: routine,
             teacher: teachers_data,
-            subjects: subjects, // Pass subjects to the view
-            classes: classes // Pass classes to the view
+            subjects: subjects,
+            classes: classes 
         });
     } catch (error) {
         console.error('Error fetching routine:', error);
