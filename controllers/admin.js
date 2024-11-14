@@ -2,7 +2,7 @@ const PendingAdmission = require('../models/pending_admission');
 const Teachers  = require("./../models/Teachers")
 const Student = require("../models/Student")
 const Subject = require('./../models/subject');
-const Classs = require("./../models/class")
+const Class = require("./../models/class")
 const Routine = require("./../models/Routine")
 exports.getadminController = async (req, res) => {
     try {
@@ -19,7 +19,7 @@ exports.getadminController = async (req, res) => {
 
 exports.getteachController = async (req, res) => {
     try {
-        const teachers_data = await Teachers.find({}).populate('subjects', 'name');;
+        const teachers_data = await Teachers.find({}).populate('subjects', 'name').populate('classes' , 'class' );
         res.render('teacher' , {teachers : teachers_data
         })
     } catch (error) {

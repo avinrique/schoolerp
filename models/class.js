@@ -12,5 +12,5 @@ const classSchema = new Schema({
     }
 });
 
-const Classs = mongoose.model('Classs', classSchema);
-module.exports = Classs;
+const Class = mongoose.model('Class', classSchema);
+module.exports = Class;

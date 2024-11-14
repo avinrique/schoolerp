@@ -23,7 +23,7 @@ const routineSchema = new Schema({
     },
     class: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Classs',
+        ref: 'Class',
         required: true
     },
     roomNumber: {
