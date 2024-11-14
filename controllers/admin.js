@@ -112,7 +112,9 @@ exports.getstudentController = async (req, res) => {
 
 exports.getroutineController = async (req, res) => {
     try {
-        const teachers_data = await Teachers.find({}).populate('subjects', 'name');
+        //classses
+
+        const teachers_data = await Teachers.find({}).populate('subjects', 'name').populate('Classs' , 'class');
         const subjects = await Subject.find({}); // Fetch all subjects
         const classes = await Classs.find({}); // Fetch all classes
 

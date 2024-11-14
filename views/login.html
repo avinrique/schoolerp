@@ -5,49 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School ERP Login</title>
     <link rel="stylesheet" href="../public/css/login.css">
+    <style>
+        /* General reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Container styling */
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f4f8; /* Light background */
+        }
+
+        /* Login box styling */
+        .login-container {
+            background-color: #ffffff; /* White background for contrast */
+            padding: 40px 50px; /* Larger padding for more space */
+            width: 400px; /* Increased width for larger form */
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1); /* Softer shadow */
+            text-align: center;
+        }
+
+        /* Title styling */
+        #form-title {
+            margin-bottom: 25px;
+            color: #333333; /* Darker text color */
+            font-size: 24px; /* Larger font size for title */
+        }
+
+        /* Button group styling */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+
+        .toggle-btn {
+            background-color: #d1e3f8;
+            color: #333;
+            border: none;
+            padding: 12px 25px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            margin: 0 5px;
+            font-size: 18px; /* Slightly larger font size */
+        }
+
+        .toggle-btn.active {
+            background-color: #4a90e2; /* Primary color for active button */
+            color: #ffffff;
+        }
+
+        .toggle-btn:hover {
+            background-color: #6aa8e9;
+        }
+
+        /* Form styling */
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 8px;
+            font-size: 16px; /* Larger font for labels */
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+
+        .input-group input:focus {
+            border-color: #4a90e2;
+            outline: none;
+            box-shadow: 0 0 6px rgba(74, 144, 226, 0.5);
+        }
+
+        /* Login/Signup button */
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #4a90e2;
+            color: #ffffff;
+            border: none;
+            border-radius: 6px;
+            font-size: 20px; /* Larger font size for button */
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:hover {
+            background-color: #3b7ac6;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="login-container">
-            <h2>School ERP Login</h2>
+            <h2 id="form-title">Sign In</h2>
             <div class="button-group">
-                <button id="teacher-login-btn" class="toggle-btn active">Login as Teacher</button>
-                <button id="admin-login-btn" class="toggle-btn">Login as Admin</button>  
+                <button id="signin-btn" class="toggle-btn active">Sign In</button>
+                <button id="signup-btn" class="toggle-btn">Sign Up</button>  
             </div>
-            <form id="login-form" action="/auth/login" method="post">
+
+            <!-- Sign In Form -->
+            <form id="signin-form" action="/auth/login" method="post" style="display: block;">
                 <div class="input-group">
-                    <label for="email" >Email</label>
+                    <label for="email">Email</label>
                     <input type="email" id="email" name="email" placeholder="Enter your email" required>
                 </div>
                 <div class="input-group">
                     <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="Enter your password" required>
                 </div>
-                
-                <!-- Hidden input to capture role (admin or teacher) -->
-                <input type="hidden" id="role" name="role" value="teacher">
+                <button type="submit" class="login-btn">Sign In</button>
+            </form>
 
-                <button type="submit" class="login-btn">Login</button>
+            <!-- Sign Up Form -->
+            <form id="signup-form" action="/auth/signup" method="post" style="display: none;">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                </div>
+                <div class="input-group">
+                    <label for="email-signup">Email</label>
+                    <input type="email" id="email-signup" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="input-group">
+                    <label for="password-signup">Password</label>
+                    <input type="password" id="password-signup" name="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">Sign Up</button>
             </form>
         </div>
     </div>
 
     <script>
-        const teacherBtn = document.getElementById('teacher-login-btn');
-        const adminBtn = document.getElementById('admin-login-btn');
-        const roleInput = document.getElementById('role');
+        const signinBtn = document.getElementById('signin-btn');
+        const signupBtn = document.getElementById('signup-btn');
+        const signinForm = document.getElementById('signin-form');
+        const signupForm = document.getElementById('signup-form');
+        const formTitle = document.getElementById('form-title');
 
-        // Handle toggle between teacher and admin login
-        teacherBtn.addEventListener('click', () => {
-            teacherBtn.classList.add('active');
-            adminBtn.classList.remove('active');
-            roleInput.value = 'teacher';  // Set role to teacher
+        // Toggle between Sign In and Sign Up forms
+        signinBtn.addEventListener('click', () => {
+            signinBtn.classList.add('active');
+            signupBtn.classList.remove('active');
+            signinForm.style.display = 'block';
+            signupForm.style.display = 'none';
+            formTitle.textContent = 'Sign In';
         });
 
-        adminBtn.addEventListener('click', () => {
-            adminBtn.classList.add('active');
-            teacherBtn.classList.remove('active');
-            roleInput.value = 'admin';  // Set role to admin
+        signupBtn.addEventListener('click', () => {
+            signupBtn.classList.add('active');
+            signinBtn.classList.remove('active');
+            signinForm.style.display = 'none';
+            signupForm.style.display = 'block';
+            formTitle.textContent = 'Sign Up';
         });
     </script>
 </body>
