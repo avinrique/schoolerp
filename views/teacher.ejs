@@ -36,13 +36,20 @@
                         <p><strong>Email:</strong> <%= teacher.email %></p>
                         <p><strong>Phone:</strong> <%= teacher.phone %></p>
                         <p><strong>Employee ID:</strong> <%= teacher.employeeId %></p>
+                        
                         <p><strong>Subjects:</strong> 
                             <% teacher.subjects.forEach(subject => { %>
                                 <%= subject.name %><%= teacher.subjects.length > 1 ? ', ' : '' %>
                             <% }) %>
                         </p>
-                        <p><strong>Date of Joining:</strong> <%= teacher.dateOfJoining.toDateString() %></p>
-                        <p><strong>Address:</strong> <%= teacher.address.street %>, <%= teacher.address.city %>, <%= teacher.address.state %> - <%= teacher.address.zip %></p>
+
+                        <p><strong>Class:</strong> 
+                            <% teacher.classes.forEach(subject => { %>
+                                <%= subject.class %> <%= subject.section %>
+                            <% }) %>
+                        </p>
+                        <p><strong>Date of Joining:</strong> <%= teacher.dateOfJoining.toDateString() %></p> 
+                        <p><strong>Address:</strong> <%= teacher.address %></p></div>
                     </div>
                 <% }) %>
             <% } else { %>

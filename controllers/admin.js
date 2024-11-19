@@ -19,7 +19,7 @@ exports.getadminController = async (req, res) => {
 
 exports.getteachController = async (req, res) => {
     try {
-        const teachers_data = await Teachers.find({}).populate('subjects', 'name').populate('classes' , 'class' );
+        const teachers_data = await Teachers.find({}).populate('subjects', 'name code').populate('classes' , 'class section' );
         res.render('teacher' , {teachers : teachers_data
         })
     } catch (error) {
@@ -52,10 +52,10 @@ exports.postteachController = async (req, res) => {
             const sectionList = sections[index].split(',').map(section => section.trim());
             const sectionPromises = sectionList.map(async (section) => {
                 
-                let existingClass = await Classs.findOne({ class: classItem, section });
+                let existingClass = await Class.findOne({ class: classItem, section });
                 if (!existingClass) {
                   
-                    existingClass = new Classs({ class: classItem, section });
+                    existingClass = new Class({ class: classItem, section });
                     await existingClass.save();
                 }
                 return existingClass._id;
@@ -114,9 +114,9 @@ exports.getroutineController = async (req, res) => {
     try {
         //classses
 
-        const teachers_data = await Teachers.find({}).populate('subjects', 'name').populate('Classs' , 'class');
+        const teachers_data = await Teachers.find({}).populate('subjects', 'name').populate('classes' , 'class section' );
         const subjects = await Subject.find({}); // Fetch all subjects
-        const classes = await Classs.find({}); // Fetch all classes
+        const classes = await Class.find({}); // Fetch all classes
 
         const { teacherId } = req.params;
         const routine = await Routine.find({ teacher: teacherId })
@@ -149,7 +149,7 @@ exports.postroutineController = async (req, res) => {
         // Check if the teacher, subject, and class exist
         const teacher = await Teachers.findById(teacherId);
         const subject = await Subject.findById(subjectId);
-        const classs = await Classs.findById(classId);
+        const classs = await Class.findById(classId);
 
         if (!teacher || !subject || !classs) {
             return res.status(404).json({ message: 'Invalid teacher, subject, or class ID' });
